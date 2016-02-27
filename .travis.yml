@@ -12,6 +12,7 @@ before_install:
 script:
   - git clone https://github.com/torch/distro.git ~/torch
   - BASEDIR=$(pwd)
+  - echo BASEDIR ${BASEDIR}
   - cd ~/torch
   - 'for pkg in cudnn cunn cunnx cutorch qttorch trepl graph optim sdl2 threads submodule graphicsmagick audio fftw3 signal nnx qtlua gnuplot dok iTorch argcheck image xlua; do { sed -i -e "s/\(.*$pkg.*\)/echo skipping $pkg # \1/" install.sh; } done'
   - 'awk ''NR==2{print "set -x"}1'' install.sh > ~install.sh'
@@ -25,7 +26,10 @@ script:
   - cd ~/torch
   - tar -cjf torch-install.tar.bz2 install
   - cd ${BASEDIR}
+  - pwd
   - rm -Rf *
+  - cp ~/torch/torch-install.tar.bz2 .
+  - ls -lh
 
 notifications:
   email:
@@ -36,5 +40,5 @@ addons:
   artifacts: true
   s3_region: "us-east-1" # defaults to "us-east-1"
   paths:
-  - ~/torch/torch-install.tar.bz2
+  - torch-install.tar.bz2
 
