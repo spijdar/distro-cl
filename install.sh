@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 SKIP_RC=0
 BATCH_INSTALL=0
 
