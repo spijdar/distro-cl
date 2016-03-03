@@ -43,7 +43,7 @@ if [[ `uname` == 'Linux' ]]; then
     export CMAKE_LIBRARY_PATH=/opt/OpenBLAS/include:/opt/OpenBLAS/lib:$CMAKE_LIBRARY_PATH
 fi
 
-for pkg in exe/luajit-rocks exe/env exe/trepl extra/nn pkg/cwrap pkg/image pkg/paths pkg/sundown pkg/sys pkg/torch pkg/paths pkg/xlua extra/argcheck extra/penlight extra/lua-cjson extra/luaffifb extra/luafilesystem pkg/dok pkg/optim extra/nnx extra/graph extra/nngraph; do {
+for pkg in exe/luajit-rocks exe/env exe/trepl extra/nn pkg/cwrap pkg/image pkg/paths pkg/sundown pkg/sys pkg/torch pkg/paths pkg/xlua extra/argcheck extra/penlight extra/lua-cjson extra/luaffifb extra/luafilesystem pkg/dok pkg/optim extra/gnuplot extra/nnx extra/graph extra/nngraph; do {
     git submodule update --init $pkg
 } done
 
@@ -110,6 +110,7 @@ cd ${THIS_DIR}/pkg/optim     && $PREFIX/bin/luarocks make optim-1.0.5-0.rockspec
 
 # Optional packages
 echo "Installing optional Torch packages"
+cd ${THIS_DIR}/pkg/gnuplot          && $PREFIX/bin/luarocks make rocks/gnuplot-scm-1.rockspec
 cd ${THIS_DIR}/exe/env              && $PREFIX/bin/luarocks make
 cd ${THIS_DIR}/extra/nnx            && $PREFIX/bin/luarocks make nnx-0.1-1.rockspec
 # cd ${THIS_DIR}/extra/threads        && $PREFIX/bin/luarocks make rocks/threads-scm-1.rockspec
