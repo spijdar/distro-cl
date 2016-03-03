@@ -41,7 +41,9 @@ if [[ `uname` == 'Linux' ]]; then
     export CMAKE_LIBRARY_PATH=/opt/OpenBLAS/include:/opt/OpenBLAS/lib:$CMAKE_LIBRARY_PATH
 fi
 
-git submodule update --init --recursive
+for pkg in exe/luajit-rocks extra/nn pkg/cwrap pkg/paths pkg/sundown pkg/sys pkg/torch pkg/paths extra/penlight extra/lua-cjson extra/luaffifb extra/luafilesystem; do {
+    git submodule update --init $pkg
+} done
 
 # If we're on OS X, use clang
 if [[ `uname` == "Darwin" ]]; then
