@@ -43,7 +43,7 @@ if [[ `uname` == 'Linux' ]]; then
     export CMAKE_LIBRARY_PATH=/opt/OpenBLAS/include:/opt/OpenBLAS/lib:$CMAKE_LIBRARY_PATH
 fi
 
-for pkg in exe/luajit-rocks exe/env exe/trepl extra/nn pkg/cwrap pkg/paths pkg/sundown pkg/sys pkg/torch pkg/paths pkg/xlua extra/penlight extra/lua-cjson extra/luaffifb extra/luafilesystem pkg/dok pkg/optim extra/nnx extra/graph extra/nngraph; do {
+for pkg in exe/luajit-rocks exe/env exe/trepl extra/nn pkg/cwrap pkg/image pkg/paths pkg/sundown pkg/sys pkg/torch pkg/paths pkg/xlua extra/penlight extra/lua-cjson extra/luaffifb extra/luafilesystem pkg/dok pkg/optim extra/nnx extra/graph extra/nngraph; do {
     git submodule update --init $pkg
 } done
 
