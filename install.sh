@@ -132,12 +132,15 @@ else
     CLIB_LUA_CPATH=$PREFIX/lib/?.so
 fi
 
+# This version is not version resistant, but is relocatable, on linux systems
 cat <<EOF >$PREFIX/bin/torch-activate
-$setup_lua_env_cmd
-export PATH=$PREFIX/bin:\$PATH
-export LD_LIBRARY_PATH=$PREFIX/lib:\$LD_LIBRARY_PATH
-export DYLD_LIBRARY_PATH=$PREFIX/lib:\$DYLD_LIBRARY_PATH
-export LUA_CPATH='$CLIB_LUA_CPATH;'\$LUA_CPATH
+# script_dir incantation from http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in/246128#246128
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+TORCH_INSTALL=$(dirname $SCRIPT_DIR)
+export PATH=$PATH:${TORCH_INSTALL}/bin
+export LUA_CPATH="${TORCH_INSTALL}/lib/?.so;${TORCH_INSTALL}/lib/lua/5.1/?.so"
+export LUA_PATH="${TORCH_INSTALL}/share/lua/5.1/?.lua;${TORCH_INSTALL}/share/lua/5.1/?/init.lua;i/share/luajit-2.1.0-beta1/?.lua"
+export LD_LIBRARY_PATH=${TORCH_INSTALL}/lib
 EOF
 chmod +x $PREFIX/bin/torch-activate
 
