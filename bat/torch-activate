@@ -1,0 +1,18 @@
+# script_dir incantation from http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in/246128#246128
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+TORCH_INSTALL=$(dirname $SCRIPT_DIR)
+
+# check if we've relocated
+LAST_LOCATION=$(cat ${TORCH_INSTALL}/share/cmake/torch/TorchConfig.cmake | grep '^SET(Torch_INSTALL_PREFIX' | cut -d \  -f 2 | cut -d \) -f 1)
+if [[ ${LAST_LOCATION} != ${TORCH_INSTALL} ]]; then {
+  echo Rewriting config, following relation
+  echo old: ${LAST_LOCATION}
+  echo new: ${TORCH_INSTALL}
+  sed -i -e "s%^SET(Torch_INSTALL_PREFIX.*%SET(Torch_INSTALL_PREFIX ${TORCH_INSTALL})%" ${TORCH_INSTALL}/share/cmake/torch/TorchConfig.cmake
+} fi
+
+export PATH=$PATH:${TORCH_INSTALL}/bin
+export LUA_CPATH="${TORCH_INSTALL}/lib/?.so;${TORCH_INSTALL}/lib/lua/5.1/?.so"
+export LUA_PATH="${TORCH_INSTALL}/share/lua/5.1/?.lua;${TORCH_INSTALL}/share/lua/5.1/?/init.lua;i/share/luajit-2.1.0-beta1/?.lua"
+export LD_LIBRARY_PATH=${TORCH_INSTALL}/lib
+
