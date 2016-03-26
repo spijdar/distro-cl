@@ -23,6 +23,7 @@ script:
   - sed -i -e 's/$(MAKE)/$(MAKE) -j 4/' pkg/torch/rocks/torch-scm-1.rockspec
   - ./install.sh -b >/dev/null
   - source ~/torch/install/bin/torch-activate
+  - luajit -l optim
   - cd ~/torch
   - tar -cjf torch-install.tar.bz2 install
   - cd ${BASEDIR}
