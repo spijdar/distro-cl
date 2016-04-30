@@ -108,7 +108,7 @@
 	url = https://github.com/mpx/lua-cjson
 [submodule "opencl/cltorch"]
 	path = opencl/cltorch
-	url = /home/ubuntu/git/cltorch
+	url = https://github.com/hughperkins/cltorch
 [submodule "opencl/clnn"]
 	path = opencl/clnn
-	url = /home/ubuntu/git/clnn
+	url = https://github.com/hughperkins/clnn
