@@ -128,6 +128,7 @@ fi
 
 cd ${THIS_DIR}/opencl/cltorch   && $PREFIX/bin/luarocks make rocks/cltorch-scm-1.rockspec
 cd ${THIS_DIR}/opencl/clnn   && $PREFIX/bin/luarocks make rocks/clnn-scm-1.rockspec
+cd ${THIS_DIR}/pkg/distrocheck   && $PREFIX/bin/luarocks make rocks/distrocheck-scm-1.rockspec
 
 export PATH=$OLDPATH # Restore anaconda distribution if we took it out.
 if [[ `uname` == "Darwin" ]]; then
