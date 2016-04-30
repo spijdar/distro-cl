@@ -99,7 +99,7 @@
 	url = https://github.com/facebook/luaffifb
 [submodule "extra/luafilesystem"]
 	path = extra/luafilesystem
-	url = https://github.com/hughperkins/luafilesystem.git
+	url = https://github.com/hughperkins/luafilesystem
 [submodule "extra/penlight"]
 	path = extra/penlight
 	url = https://github.com/stevedonovan/Penlight.git
