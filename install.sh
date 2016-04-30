@@ -126,6 +126,9 @@ then
     cd ${THIS_DIR}/extra/cunnx   && $PREFIX/bin/luarocks make rocks/cunnx-scm-1.rockspec
 fi
 
+cd ${THIS_DIR}/opencl/cltorch   && $PREFIX/bin/luarocks make rocks/cltorch-scm-1.rockspec
+cd ${THIS_DIR}/opencl/clnn   && $PREFIX/bin/luarocks make rocks/clnn-scm-1.rockspec
+
 export PATH=$OLDPATH # Restore anaconda distribution if we took it out.
 if [[ `uname` == "Darwin" ]]; then
     cd ${THIS_DIR}/extra/iTorch         && $PREFIX/bin/luarocks make OPENSSL_DIR=/usr/local/opt/openssl/
