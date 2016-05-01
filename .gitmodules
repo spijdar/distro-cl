@@ -18,7 +18,7 @@
 	url = https://github.com/torch/cwrap.git
 [submodule "extra/cunn"]
 	path = extra/cunn
-	url = https://github.com/torch/cunn.git
+	url = https://github.com/hughperkins/cunn.git
 [submodule "extra/cutorch"]
 	path = extra/cutorch
 	url = https://github.com/hughperkins/cutorch.git
