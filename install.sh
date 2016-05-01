@@ -111,8 +111,8 @@ if [ -x "$path_to_nvcc" ]
 then
     echo "Found CUDA on your machine. Installing CUDA packages"
     cd ${THIS_DIR}/extra/FindCUDA   && $PREFIX/bin/luarocks make rocks/findcuda-scm-1.rockspec
-    cd ${THIS_DIR}/extra/cutorch && $PREFIX/bin/luarocks make rocks/cutorch-scm-1.rockspec || exit 1
-    cd ${THIS_DIR}/extra/cunn    && $PREFIX/bin/luarocks make rocks/cunn-scm-1.rockspec    || exit 1
+    cd ${THIS_DIR}/extra/cutorch && CMAKE_CXX_FLAGS=-D_FORCE_INLINES $PREFIX/bin/luarocks make rocks/cutorch-scm-1.rockspec || exit 1
+    cd ${THIS_DIR}/extra/cunn    && CMAKE_CXX_FLAGS=-D_FORCE_INLINES $PREFIX/bin/luarocks make rocks/cunn-scm-1.rockspec    || exit 1
 fi
 
 # Optional packages
@@ -133,8 +133,8 @@ cd ${THIS_DIR}/extra/signal         && $PREFIX/bin/luarocks make rocks/signal-sc
 if [ -x "$path_to_nvcc" ]
 then
     echo "Found CUDA on your machine. Installing optional CUDA packages"
-    cd ${THIS_DIR}/extra/cudnn   && $PREFIX/bin/luarocks make cudnn-scm-1.rockspec
-    cd ${THIS_DIR}/extra/cunnx   && $PREFIX/bin/luarocks make rocks/cunnx-scm-1.rockspec
+    cd ${THIS_DIR}/extra/cudnn   && CMAKE_CXX_FLAGS=-D_FORCE_INLINES  $PREFIX/bin/luarocks make cudnn-scm-1.rockspec
+    cd ${THIS_DIR}/extra/cunnx   && CMAKE_CXX_FLAGS=-D_FORCE_INLINES  $PREFIX/bin/luarocks make rocks/cunnx-scm-1.rockspec
 fi
 
 cd ${THIS_DIR}/opencl/cltorch   && $PREFIX/bin/luarocks make rocks/cltorch-scm-1.rockspec
