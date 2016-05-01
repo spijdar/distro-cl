@@ -112,3 +112,6 @@
 [submodule "opencl/clnn"]
 	path = opencl/clnn
 	url = https://github.com/hughperkins/clnn
+[submodule "extra/FindCUDA"]
+	path = extra/FindCUDA
+	url = https://github.com/hughperkins/FindCUDA
