@@ -50,6 +50,11 @@ if [[ `uname` == "Darwin" ]]; then
     export CC=clang
     export CXX=clang++
 fi
+# handle ubuntu 15.10, 16.04, which default to gcc 5
+if [[ $(gcc -dumpversion | cut -d . -f 1) == 5 ]]; then {
+  export CC=gcc-4.9
+  export CXX=g++-4.9
+} fi
 
 echo "Installing Lua version: ${TORCH_LUA_VERSION}"
 mkdir -p install
