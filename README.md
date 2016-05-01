@@ -1,34 +1,35 @@
-[![Build Status](https://travis-ci.org/torch/distro.svg?branch=master)](https://travis-ci.org/torch/distro)
+# Distro-cl
 
-Self-contained Torch installation
-============
+This is a version of Soumith's [distro](https://github.com/torch/distro) for using OpenCL
 
-Install dependencies. Uses `apt-get` on Ubuntu, which might require `sudo`. Uses `brew` on OSX.
-```sh
-curl -s https://raw.githubusercontent.com/torch/ezinstall/master/install-deps | bash
-```
+It is essentially Torch as of ~21 February, plus cltorch, and clnn, to enable OpenCL.
 
-Install this repo, which installs the torch distribution, with a lot of nice goodies.
-```sh
-git clone https://github.com/torch/distro.git ~/torch --recursive
-cd ~/torch; ./install.sh
-```
+## Why create a distro for OpenCL?
 
-By default Torch will install LuaJIT 2.1. If you want other options, you can use the command:
-```sh
-TORCH_LUA_VERSION=LUA51 ./install.sh
-TORCH_LUA_VERSION=LUA52 ./install.sh
-```
+The advantage of installing OpenCL from a fixed distro like this is I can control very precisely what and
+when gets ported from torch.  Otherwise, I get emails about clnn being broken, at 4am on a Monday morning,
+and I do have a full-time day-job, so I cannot fix everything straight away :-D  By using a specific
+distro, I can eat changes from upstream as and when they become useful/important/someone requests them
+in a issue.
 
-Now, everything should be installed. Either open a new shell, or source your profile via
-```sh
-. ~/.bashrc  # or: . ~/.zshrc
-th -e "print 'I just installed Torch! Yesss.'"
-```
+## How to install?
 
-Note: If you use a non-standard shell, you'll want to run this command
-```sh
-./install/bin/torch-activate
-```
+* see [cltorch](https://github.com/hughperkins/cltorch) page for installation instructions.  It is
+quite easy :-)
 
-Tested on Ubuntu 14.04, CentOS/RHEL 6.3 and OSX
+## Wont this be behind main Torch bleeding edge?
+
+Yes.  But hopefully stable.  And working.  Please file an issue for any features you want from upstream.
+
+## Can I use `cunn` and `cutorch` from this distro?
+
+Yes
+
+## Do you support ubuntu 16.04?
+
+Yes.  I am running Ubuntu 16.04 :-)
+
+## How to request new features, or pull new features from upstream?
+
+Please file an issue.
+
