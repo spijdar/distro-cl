@@ -167,6 +167,10 @@ export LD_LIBRARY_PATH=$PREFIX/lib:\$LD_LIBRARY_PATH
 export DYLD_LIBRARY_PATH=$PREFIX/lib:\$DYLD_LIBRARY_PATH
 export LUA_CPATH='$CLIB_LUA_CPATH;'\$LUA_CPATH
 EOF
+if [[ $(gcc -dumpversion | cut -d . -f 1) == 5 ]]; then {
+  echo export CC=gcc-4.9>>$PREFIX/bin/torch-activate
+  echo export CXX=g++-4.9>>$PREFIX/bin/torch-activate
+} fi
 chmod +x $PREFIX/bin/torch-activate
 
 RC_FILE=0
