@@ -103,3 +103,20 @@ The OpenCL is enabled by using the following two projects, which are installed i
 * [cltorch](https://github.com/hughperkins/cltorch)
 * [clnn](https://github.com/hughperkins/clnn)
 
+# Recent changes
+
+* 2nd May:
+  * Re-applied:
+    * 26th March:
+      * added TemporalConvolution2: same API and usage as TemporalConvolution, but faster on GPUs
+* 31st April:
+  * Re-applied:
+    * 10th March:
+      * [@pawni](https://github.com/pawni) (Nick Pawlowski) added SpatialUpSamplingNearest.  Thank you Nick
+    * 20th February:
+      * [@gloine](https://github.com/gloine) (Jaehyung Lee) added support for non-batched input to ClassNLLCriterion.  Thank you Jaehyung
+    * 27 March 2016:
+      * migrated from clBLAS 2.4 to clBLAS 2.11/develop. This migration is not set in stone, depends on how well that works. However, there is a bug in 2.4 for certain configurations of matrix multiplication, and its not obvious how to fix that, so maybe using 2.11/develop is the easiest way forward?
+* 30th April:
+  * distro-cl first created, to stabilize Torch distribution
+
