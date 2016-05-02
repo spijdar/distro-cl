@@ -109,7 +109,7 @@ The OpenCL is enabled by using the following two projects, which are installed i
   * Re-applied:
     * 26th March:
       * added TemporalConvolution2: same API and usage as TemporalConvolution, but faster on GPUs
-* 31st April:
+* 1st May:
   * Re-applied:
     * 10th March:
       * [@pawni](https://github.com/pawni) (Nick Pawlowski) added SpatialUpSamplingNearest.  Thank you Nick
