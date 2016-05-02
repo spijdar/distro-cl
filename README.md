@@ -1,21 +1,85 @@
-# Distro-cl
+# OpenCL Torch
 
-This is a version of Soumith's [distro](https://github.com/torch/distro) for using OpenCL
+This is a distro of [torch](http://torch.ch) library enabled for OpenCL
 
-It is essentially Torch as of ~21 February, plus cltorch, and clnn, to enable OpenCL.
+# Installation
 
-## Why create a distro for OpenCL?
+## Pre-requisites
 
-The advantage of installing OpenCL from a fixed distro like this is I can control very precisely what and
-when gets ported from torch.  Otherwise, I get emails about clnn being broken, at 4am on a Monday morning,
-and I do have a full-time day-job, so I cannot fix everything straight away :-D  By using a specific
-distro, I can eat changes from upstream as and when they become useful/important/someone requests them
-in a issue.
+* python 2.7 installed: `python` command should point to python 2.7, during build (this is necessary for building [clBLAS](https://github.com/clMathLibraries/clBLAS) )
+* have an OpenCL-enabled GPU device available, and appropriate OpenCL-enabled drivers installed
 
-## How to install?
+## Procedure
 
-* see [cltorch](https://github.com/hughperkins/cltorch) page for installation instructions.  It is
-quite easy :-)
+Please proceed as follows:
+```
+git clone --recursive https://github.com/hughperkins/distro -b distro-cl ~/torch-cl
+cd ~/torch-cl
+bash install-deps
+./install.sh
+```
+Thats it!  To test, you can do for example:
+```
+source ~/torch-cl/install/bin/torch-activate
+luajit -l torch -e 'torch.test()'
+luajit -l nn -e 'nn.test()'
+luajit -l cltorch -e 'cltorch.test()'
+luajit -l clnn -e 'clnn.test()'
+```
+If you're using CUDA, you can also run:
+```
+luajit -l cutorch -e 'cutorch.test()'
+luajit -l cunn -e 'nn.testcuda()'
+```
+
+## Updating
+
+Please do *NOT* use any of: `luarocks install nn`, `luarocks install torch`, `luarocks install cltorch`, `luarocks install clnn`,
+`luarocks install cutorch`, or `luarocks install cunn`.  This will break your installation, and is not supported.  The supported update method is:
+```
+cd ~/torch-cl
+git pull
+git submodule update --init --recursive
+./install.sh
+```
+If any errors like `fatal: reference is not a tree`, you have two options:
+* easy option: remove ~/torch-cl completely, reinstall
+* harder, hacky option:
+  * in the error message, you should see which submodule is broken.  Let's say it is `extra/nn`
+  * so edit `.git/modules/extra/nn/config`, and in the `url` part, change `torch` to `hughperkins`
+  * if it's not `extra/nn`, then modify the path of this file appropriatel
+  * that's it!
+  * now rerun `git submodule update --init --recursive`, and the updates should pull down ok (otherwise raise an issue)
+
+## Unit-tests
+
+To run, do:
+```
+source ~/torch-cl/install/bin/torch-activate
+luajit -l torch -e 'torch.test()'
+luajit -l nn -e 'nn.test()'
+luajit -l cltorch -e 'cltorch.test()'
+luajit -l clnn -e 'clnn.test()'
+```
+If you're using CUDA, you can also run:
+```
+luajit -l cutorch -e 'cutorch.test()'
+luajit -l cunn -e 'nn.testcuda()'
+```
+
+# Requests for additional operations etc
+
+* Please raise an issue for any operations etc which you particularly need, or you feel are not working for some reason.
+* (Ditto for any build errors)
+
+# FAQ
+
+## How does this relate to mainline torch?
+
+It's a stabilized version of torch mainline.  Torch mainline is kind of in permanent 'sid'-style
+experimental mode.  This is great for rapidly evolving torch, but it kind of sucks to develop solid
+libraries against :-D  This distro holds Torch stable, and allows for porting new features as and when,
+without getting emails at 4am because something has changed in Torch mainline, and broken clnn :-D
 
 ## Wont this be behind main Torch bleeding edge?
 
@@ -32,4 +96,10 @@ Yes.  I am running Ubuntu 16.04 :-)
 ## How to request new features, or pull new features from upstream?
 
 Please file an issue.
+
+# Related projects
+
+The OpenCL is enabled by using the following two projects, which are installed implicitly by this distro:
+* [cltorch](https://github.com/hughperkins/cltorch)
+* [clnn](https://github.com/hughperkins/clnn)
 
