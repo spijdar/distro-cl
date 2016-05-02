@@ -97,6 +97,12 @@ Yes.  I am running Ubuntu 16.04 :-)
 
 Please file an issue.
 
+## Why dont you have any github stars?
+
+They're all on the project pages (for now), ie:
+* [cltorch](https://github.com/hughperkins/cltorch)
+* [clnn](https://github.com/hughperkins/clnn)
+
 # Related projects
 
 The OpenCL is enabled by using the following two projects, which are installed implicitly by this distro:
