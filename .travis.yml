@@ -10,10 +10,10 @@ before_install:
   - if [ -f ".git/shallow" ]; then travis_retry git fetch --unshallow; fi
 
 script:
-  - git clone https://github.com/torch/distro.git ~/torch
+  - git clone https://github.com/hughperkins/distro.git ~/torch-cl
   - BASEDIR=$(pwd)
   - echo BASEDIR ${BASEDIR}
-  - cd ~/torch
+  - cd ~/torch-cl
   - 'for pkg in cudnn cunn cunnx cutorch qttorch graph sdl2 threads submodule graphicsmagick audio dok trepl argcheck fftw3 signal nnx qtlua gnuplot iTorch image; do { sed -i -e "s/\(.*$pkg.*\)/echo skipping $pkg # \1/" install.sh; } done'
   - 'awk ''NR==2{print "set -x"}1'' install.sh > ~install.sh'
   - mv ~install.sh install.sh
@@ -22,7 +22,7 @@ script:
   - for pkg in opencl/cltorch opencl/clnn exe/luajit-rocks extra/nn pkg/cwrap pkg/paths pkg/sundown pkg/optim pkg/sys pkg/xlua pkg/torch pkg/paths extra/penlight extra/lua-cjson extra/luaffifb extra/luafilesystem; do { git submodule update --init $pkg; } done
   - sed -i -e 's/$(MAKE)/$(MAKE) -j 4/' pkg/torch/rocks/torch-scm-1.rockspec
   - ./install.sh -b >/dev/null
-  - source ~/torch/install/bin/torch-activate
+  - source ~/torch-cl/install/bin/torch-activate
   - luajit -l torch
   - luajit -l nn
   - luajit -l cltorch
@@ -32,12 +32,12 @@ script:
   - luajit -l nn -e 'nn.test'
   - export TEST_EXCLUDES=test_blas,test_cumprod,test_cumsum,test_equals,test_indexcopy,test_indexfill,test_matrixwide,test_max2,test_mean,test_meanall,test_min2,test_norm,test_prod,test_prodall,test_sum_t,test_sumallt,test_reduceAll,test_sum,test_sum_t_offset,test_sumall
   - 'luajit -l cltorch -e "cltorch.setAllowNonGpus(1); cltorch.test()"'
-  - cd ~/torch
+  - cd ~/torch-cl
   - tar -cjf torch-cl-install.tar.bz2 install
   - cd ${BASEDIR}
   - pwd
   - rm -Rf *
-  - cp ~/torch/torch-cl-install.tar.bz2 .
+  - cp ~/torch-cl/torch-cl-install.tar.bz2 .
   - ls -lh
 
 notifications:
