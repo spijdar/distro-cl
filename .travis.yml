@@ -19,7 +19,7 @@ script:
   - mv ~install.sh install.sh
   - chmod +x install.sh
   - cat install.sh
-  - for pkg in exe/luajit-rocks extra/nn pkg/cwrap pkg/paths pkg/sundown pkg/optim pkg/sys pkg/xlua pkg/torch pkg/paths extra/penlight extra/lua-cjson extra/luaffifb extra/luafilesystem; do { git submodule update --init $pkg; } done
+  - for pkg in opencl/cltorch opencl/clnn exe/luajit-rocks extra/nn pkg/cwrap pkg/paths pkg/sundown pkg/optim pkg/sys pkg/xlua pkg/torch pkg/paths extra/penlight extra/lua-cjson extra/luaffifb extra/luafilesystem; do { git submodule update --init $pkg; } done
   - sed -i -e 's/$(MAKE)/$(MAKE) -j 4/' pkg/torch/rocks/torch-scm-1.rockspec
   - ./install.sh -b >/dev/null
   - source ~/torch/install/bin/torch-activate
