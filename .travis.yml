@@ -1,54 +1,53 @@
-language: c
-compiler:
-  - gcc
-  - clang
-cache:
-  directories:
-  - $HOME/OpenBlasInstall
-sudo: false
-env:
-  - TORCH_LUA_VERSION=LUAJIT21
-  - TORCH_LUA_VERSION=LUA51
-  - TORCH_LUA_VERSION=LUA52
+language: objective-c
+matrix:
+  include:
+    - env: OSX=10.11
+      os: osx
+      osx_image: osx10.11
+      rvm: system
+
+before_install:
+  - if [ -f ".git/shallow" ]; then travis_retry git fetch --unshallow; fi
+
+script:
+  - git clone https://github.com/torch/distro.git ~/torch
+  - BASEDIR=$(pwd)
+  - echo BASEDIR ${BASEDIR}
+  - cd ~/torch
+  - 'for pkg in cudnn cunn cunnx cutorch qttorch graph sdl2 threads submodule graphicsmagick audio fftw3 signal nnx qtlua gnuplot iTorch image; do { sed -i -e "s/\(.*$pkg.*\)/echo skipping $pkg # \1/" install.sh; } done'
+  - 'awk ''NR==2{print "set -x"}1'' install.sh > ~install.sh'
+  - mv ~install.sh install.sh
+  - chmod +x install.sh
+  - cat install.sh
+  - for pkg in exe/luajit-rocks extra/nn pkg/cwrap pkg/paths pkg/sundown pkg/optim pkg/sys pkg/xlua pkg/torch pkg/paths extra/penlight extra/lua-cjson extra/luaffifb extra/luafilesystem; do { git submodule update --init $pkg; } done
+  - sed -i -e 's/$(MAKE)/$(MAKE) -j 4/' pkg/torch/rocks/torch-scm-1.rockspec
+  - ./install.sh -b >/dev/null
+  - source ~/torch/install/bin/torch-activate
+  - luajit -l torch
+  - luajit -l nn
+  - luajit -l cltorch
+  - luajit -l clnn
+  - luajit -l optim
+  - luajit -l torch -e 'torch.test'
+  - luajit -l nn -e 'nn.test'
+  - export TEST_EXCLUDES=test_blas,test_cumprod,test_cumsum,test_equals,test_indexcopy,test_indexfill,test_matrixwide,test_max2,test_mean,test_meanall,test_min2,test_norm,test_prod,test_prodall,test_sum_t,test_sumallt,test_reduceAll,test_sum,test_sum_t_offset,test_sumall
+  - 'luajit -l cltorch -e "cltorch.setAllowNonGpus(1); cltorch.test()"'
+  - cd ~/torch
+  - tar -cjf torch-cl-install.tar.bz2 install
+  - cd ${BASEDIR}
+  - pwd
+  - rm -Rf *
+  - cp ~/torch/torch-cl-install.tar.bz2 .
+  - ls -lh
+
+notifications:
+  email:
+    on_success: never
+    on_failure: never
+
 addons:
-  apt:
-    packages:
-    - cmake
-    - gfortran
-    - gcc-multilib
-    - gfortran-multilib
-    - liblapack-dev
-    - build-essential
-    - gcc 
-    - g++ 
-    - curl
-    - cmake 
-    - libreadline-dev 
-    - git-core 
-    - libqt4-core 
-    - libqt4-gui
-    - libqt4-dev 
-    - libjpeg-dev 
-    - libpng-dev 
-    - ncurses-dev
-    - imagemagick 
-    - libzmq3-dev 
-    - gfortran 
-    - unzip 
-    - gnuplot
-    - gnuplot-x11 
-    - libfftw3-dev 
-    - sox 
-    - libsox-dev
-    - libsox-fmt-all
-    - libgraphicsmagick1-dev
-    - graphicsmagick
-before_script: 
-- export ROOT_TRAVIS_DIR=$(pwd)
-- export INSTALL_PREFIX=~/torch/install
--  ls $HOME/OpenBlasInstall/lib || (cd /tmp/ && git clone https://github.com/xianyi/OpenBLAS.git -b master && cd OpenBLAS && (make NO_AFFINITY=1 -j$(getconf _NPROCESSORS_ONLN) 2>/dev/null >/dev/null) && make PREFIX=$HOME/OpenBlasInstall install)
-- git clone https://github.com/torch/distro.git ~/torch --recursive
-script: 
-- cd ~/torch && ./install.sh -b
-- source ~/torch/install/bin/torch-activate
-- ./test.sh
+  artifacts: true
+  s3_region: "us-east-1" # defaults to "us-east-1"
+  paths:
+  - torch-cl-install.tar.bz2
+
