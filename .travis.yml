@@ -28,8 +28,8 @@ script:
   - luajit -l cltorch
   - luajit -l clnn
   - luajit -l optim
-  - luajit -l torch -e 'torch.test'
-  - luajit -l nn -e 'nn.test'
+  - luajit -l torch -e 'torch.test()'
+  - luajit -l nn -e 'nn.test()'
   - export TEST_EXCLUDES=test_blas,test_cumprod,test_cumsum,test_equals,test_indexcopy,test_indexfill,test_matrixwide,test_max2,test_mean,test_meanall,test_min2,test_norm,test_prod,test_prodall,test_sum_t,test_sumallt,test_reduceAll,test_sum,test_sum_t_offset,test_sumall
   - 'luajit -l cltorch -e "cltorch.setAllowNonGpus(1); cltorch.test()"'
   - cd ~/torch-cl
