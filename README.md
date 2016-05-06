@@ -32,7 +32,21 @@ luajit -l cutorch -e 'cutorch.test()'
 luajit -l cunn -e 'nn.testcuda()'
 ```
 
-## Updating
+## Alernative minimal no-gui install-deps
+
+If you are using Ubuntu, and you dont need qt, itorch, or anything gui-like, then, instead of the line `bash install-deps` in the above instructions,
+you can do instead:
+```
+bash install-deps-nogui.sh
+```
+or:
+```
+sudo apt-get install -y wget git gcc g++ cmake cmake-curses-gui libffi-dev libblas-dev liblapack-dev gfortran libreadline-dev
+```
+
+This is a bit more transparent: you can see what `sudo` actions are happening.  And it will install faster, since no qt packages will be installed
+
+# Updating
 
 Please do *NOT* use any of: `luarocks install nn`, `luarocks install torch`, `luarocks install cltorch`, `luarocks install clnn`,
 `luarocks install cutorch`, or `luarocks install cunn`.  This will break your installation, and is not supported.  The supported update method is:
