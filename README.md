@@ -32,7 +32,7 @@ luajit -l cutorch -e 'cutorch.test()'
 luajit -l cunn -e 'nn.testcuda()'
 ```
 
-## Alernative minimal no-gui install-deps
+## Alternative minimal no-gui install-deps
 
 If you are using Ubuntu, and you dont need qt, itorch, or anything gui-like, then, instead of the line `bash install-deps` in the above instructions,
 you can do instead:
