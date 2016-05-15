@@ -35,16 +35,16 @@ luajit -l cunn -e 'nn.testcuda()'
 ## Alternative minimal no-gui install-deps
 
 If you are using Ubuntu, and you dont need qt, itorch, or anything gui-like, then, instead of the line `bash install-deps` in the above instructions,
-you can do instead:
+you can do instead, according to your ubuntu version one of:
 ```
-bash install-deps-nogui.sh
+bash install-deps-nogui-ubuntu1404.sh
 ```
 or:
 ```
-sudo apt-get install -y wget git gcc g++ cmake cmake-curses-gui libffi-dev libblas-dev liblapack-dev gfortran libreadline-dev
+bash install-deps-nogui-ubuntu1604.sh
 ```
 
-This is a bit more transparent: you can see what `sudo` actions are happening.  And it will install faster, since no qt packages will be installed
+This will install faster, since no qt packages will be installed.
 
 # Updating
 
