@@ -123,6 +123,9 @@ The OpenCL is enabled by using the following two projects, which are installed i
 * [cltorch](https://github.com/hughperkins/cltorch)
 * [clnn](https://github.com/hughperkins/clnn)
 
+An hcc implementation for Torch is in progress here:
+* [hctorch](https://bitbucket.org/multicoreware/hcc_torch)
+
 # Recent changes
 
 * 2nd May:
