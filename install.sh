@@ -32,7 +32,7 @@ done
 # It has a malformed MKL library (as of 1/17/2015)
 OLDPATH=$PATH
 if [[ $(echo $PATH | grep anaconda) ]]; then
-    export PATH=$(echo $PATH | tr ':' '\n' | grep -v "anaconda2/lib" | grep -v "anaconda2/include" | grep -v "anaconda2/bin" | grep -v "anaconda/bin" | grep -v "anaconda/lib" | grep -v "anaconda/include" | uniq | tr '\n' ':')
+    export PATH=$(echo $PATH | tr ':' '\n' | grep -v "anaconda3/lib" | grep -v "anaconda3/include" | grep -v "anaconda3/bin" | grep -v "anaconda2/lib" | grep -v "anaconda2/include" | grep -v "anaconda2/bin" | grep -v "anaconda/bin" | grep -v "anaconda/lib" | grep -v "anaconda/include" | uniq | tr '\n' ':')
 fi
 
 echo "Prefix set to $PREFIX"
