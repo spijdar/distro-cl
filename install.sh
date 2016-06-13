@@ -106,6 +106,12 @@ cd ${THIS_DIR}/extra/graph   && $PREFIX/bin/luarocks make rocks/graph-scm-1.rock
 cd ${THIS_DIR}/extra/nngraph && $PREFIX/bin/luarocks make                              || exit 1
 cd ${THIS_DIR}/pkg/image     && $PREFIX/bin/luarocks make image-1.1.alpha-0.rockspec   || exit 1
 cd ${THIS_DIR}/pkg/optim     && $PREFIX/bin/luarocks make optim-1.0.5-0.rockspec       || exit 1
+(
+  unset CC
+  unset CXX  # this is a c++ library, that uses system libraries, so gcc4.9 messes with the
+             # the runtime linking later
+  cd ${THIS_DIR}/extra/loadcaffe         && $PREFIX/bin/luarocks make loadcaffe-1.0-0.rockspec
+)
 
 if [ -x "$path_to_nvcc" ]
 then
