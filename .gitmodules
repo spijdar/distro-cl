@@ -115,3 +115,6 @@
 [submodule "extra/FindCUDA"]
 	path = extra/FindCUDA
 	url = https://github.com/hughperkins/FindCUDA
+[submodule "extra/loadcaffe"]
+	path = extra/loadcaffe
+	url = https://github.com/szagoruyko/loadcaffe.git
