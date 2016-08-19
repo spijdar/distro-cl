@@ -23,11 +23,11 @@ script:
   - sed -i -e 's/$(MAKE)/$(MAKE) -j 4/' pkg/torch/rocks/torch-scm-1.rockspec
   - ./install.sh -b
   - source ~/torch-cl/install/bin/torch-activate
-  - luajit -l torch
-  - luajit -l nn
-  - luajit -l cltorch
-  - luajit -l clnn
-  - luajit -l optim
+  - luajit -l torch -e 'print("ok")'
+  - luajit -l nn -e 'print("ok")'
+  - luajit -l cltorch -e 'print("ok")'
+  - luajit -l clnn -e 'print("ok")'
+  - luajit -l optim -e 'print("ok")'
   - luajit -l torch -e 'torch.test()'
   - luajit -l nn -e 'nn.test()'
   - export TEST_EXCLUDES=test_blas,test_cumprod,test_cumsum,test_equals,test_indexcopy,test_indexfill,test_matrixwide,test_max2,test_mean,test_meanall,test_min2,test_norm,test_prod,test_prodall,test_sum_t,test_sumallt,test_reduceAll,test_sum,test_sum_t_offset,test_sumall
