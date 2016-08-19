@@ -65,6 +65,11 @@ If any errors like `fatal: reference is not a tree`, you have two options:
   * that's it!
   * now rerun `git submodule update --init --recursive`, and the updates should pull down ok (otherwise raise an issue)
 
+New!  There is now an opencl-specific rocks source.  It will only be used to override the main torch7 repo where necessary for
+opencl to run.
+If you dont want to use this, then you can simply remove the `rocks-cl` line from your `~/torch-cl/install/etc/luarocks/config.lua`
+file.
+
 ## Unit-tests
 
 To run, do:
