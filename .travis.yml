@@ -46,7 +46,7 @@ notifications:
     on_failure: always
 
 addons:
-  artifacts: true
+  artifacts: false
   s3_region: "us-east-1" # defaults to "us-east-1"
   paths:
   - torch-cl-install.tar.bz2
