@@ -7,7 +7,7 @@ This is a distro of [torch](http://torch.ch) library enabled for OpenCL
 ## Pre-requisites
 
 * python 2.7 installed: `python` command should point to python 2.7, during build (this is necessary for building [clBLAS](https://github.com/clMathLibraries/clBLAS) )
-* have an OpenCL-enabled GPU device available, and appropriate OpenCL-enabled drivers installed
+* have an OpenCL-1.2 enabled GPU device available, and appropriate OpenCL-1.2 enabled drivers installed
 
 ## Procedure
 
