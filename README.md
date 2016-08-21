@@ -32,8 +32,6 @@ luajit -l cutorch -e 'cutorch.test()'
 luajit -l cunn -e 'nn.testcuda()'
 ```
 
-Note!  Tests on `nn` dont run cleanly right now, you will see warnings (though no erors)
-
 ## Alternative minimal no-gui install-deps
 
 If you are using Ubuntu, and you dont need qt, itorch, or anything gui-like, then, instead of the line `bash install-deps` in the above instructions,
@@ -50,8 +48,10 @@ This will install faster, since no qt packages will be installed.
 
 # Updating
 
-Please do *NOT* use any of: `luarocks install nn`, `luarocks install torch`, `luarocks install cltorch`, `luarocks install clnn`,
-`luarocks install cutorch`, or `luarocks install cunn`.  This will break your installation, and is not supported.  The supported update method is:
+Note that nn, torch, cutorch, and cunn are pinned, via the `rocks-cl` repository in your `~/torch-cl/install/etc/luarocks/config.lua` file.
+So, doing any of `luarocks install nn`, `luarocks install torch`, `luarocks install cltorch`, `luarocks install clnn`,
+`luarocks install cutorch`, or `luarocks install cunn` should no longer break your installation (though they will, if you remove
+the pinning).  However, on the whole, the recommended way of updating `distro-cl` is:
 ```
 cd ~/torch-cl
 git pull
@@ -66,11 +66,6 @@ If any errors like `fatal: reference is not a tree`, you have two options:
   * if it's not `extra/nn`, then modify the path of this file appropriatel
   * that's it!
   * now rerun `git submodule update --init --recursive`, and the updates should pull down ok (otherwise raise an issue)
-
-New!  There is now an opencl-specific rocks source.  It will only be used to override the main torch7 repo where necessary for
-opencl to run.
-If you dont want to use this, then you can simply remove the `rocks-cl` line from your `~/torch-cl/install/etc/luarocks/config.lua`
-file.
 
 ## Unit-tests
 
@@ -136,7 +131,7 @@ An hcc implementation for Torch is in progress here:
 # Recent changes
 
 * 21st August:
-  * fixed unit test errors in `nn` module
+  * fixed unit test errors and warnings in `nn` module
 * 20th August:
   * bunch of patches to get neuralconvo to work:
     * in cltorch, `apply`, `map`, `map2` have now become `apply_on_gpu`, `map_on_gpu`, `map2_on_gpu2, and `apply` is now
