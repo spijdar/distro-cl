@@ -118,6 +118,3 @@
 [submodule "extra/loadcaffe"]
 	path = extra/loadcaffe
 	url = https://github.com/hughperkins/loadcaffe.git
-[submodule "opencl/libdnn"]
-	path = opencl/libdnn
-	url = git@github.com:hughperkins/libdnn.git
