@@ -32,10 +32,7 @@ luajit -l cutorch -e 'cutorch.test()'
 luajit -l cunn -e 'nn.testcuda()'
 ```
 
-Note!  Tests on `nn` dont run cleanly right now, you will see errors for:
-* View
-* Reshape
-There will also be a bunch of warnings.  https://gist.github.com/hughperkins/1f96db6bc5f946c4cad91b3e48ee9914
+Note!  Tests on `nn` dont run cleanly right now, you will see warnings (though no erors)
 
 ## Alternative minimal no-gui install-deps
 
@@ -138,6 +135,15 @@ An hcc implementation for Torch is in progress here:
 
 # Recent changes
 
+* 21st August:
+  * fixed unit test errors in `nn` module
+* 20th August:
+  * bunch of patches to get neuralconvo to work:
+    * in cltorch, `apply`, `map`, `map2` have now become `apply_on_gpu`, `map_on_gpu`, `map2_on_gpu2, and `apply` is now
+    the same as the cutorch version, ie copies to main memory, does the calcs on the cpu, then copies back to gpu,
+    for compatibility with cutorch
+    * updated Tester.lua in torch to the same as upstream main torch distro, so that `rnn` tests can run now
+    * created `rocks-cl` rocks sources, to override upstream rocks for: rnn, torch7, nn, cutorch, cunn
 * 2nd May:
   * Re-applied:
     * 26th March:
