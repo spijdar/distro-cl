@@ -32,6 +32,11 @@ luajit -l cutorch -e 'cutorch.test()'
 luajit -l cunn -e 'nn.testcuda()'
 ```
 
+Note!  Tests on `nn` dont run cleanly right now, you will see errors for:
+* View
+* Reshape
+There will also be a bunch of warnings.  https://gist.github.com/hughperkins/1f96db6bc5f946c4cad91b3e48ee9914
+
 ## Alternative minimal no-gui install-deps
 
 If you are using Ubuntu, and you dont need qt, itorch, or anything gui-like, then, instead of the line `bash install-deps` in the above instructions,
