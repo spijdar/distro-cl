@@ -118,6 +118,3 @@
 [submodule "extra/loadcaffe"]
 	path = extra/loadcaffe
 	url = https://github.com/hughperkins/loadcaffe.git
-[submodule "opencl/boost-headers-lite"]
-	path = opencl/boost-headers-lite
-	url = https://github.com/hughperkins/boost-headers-lite
