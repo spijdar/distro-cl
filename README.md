@@ -131,9 +131,11 @@ An hcc implementation for Torch is in progress here:
 # Recent changes
 
 * 22nd August:
-  * added `:maskedSelect`
+  * added `:maskedSelect` (thanks to [Jacob Szuppe](https://github.com/haahh) for showing me how to do this, using boost compute)
   * behind the scenes:
     * added [boost compute](https://github.com/boostorg/compute)
+    * this opens the door to implementing a few other missing methods, basically anything involving various types of
+      `scan` operation
 * 21st August:
   * fixed unit test errors and warnings in `nn` module
 * 20th August:
