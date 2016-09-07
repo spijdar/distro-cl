@@ -77,7 +77,7 @@ if [[ `uname` == 'Darwin' ]]; then
     brew install libjpeg imagemagick zeromq graphicsmagick openssl
     brew link readline --force
     brew cask install xquartz
-    brew remove gnuplot
+    brew list -1 | grep -q "^gnuplot\$" && brew remove gnuplot
     brew install gnuplot --with-wxmac --with-cairo --with-pdflib-lite --with-x11 --without-lua
 
 elif [[ "$(uname)" == 'Linux' ]]; then
@@ -141,22 +141,15 @@ elif [[ "$(uname)" == 'Linux' ]]; then
         if [[ $ubuntu_major_version -lt '12' ]]; then
             echo '==> Ubuntu version not supported.'
             exit 1
-        elif [[ $ubuntu_major_version -lt '14' ]]; then
-            sudo add-apt-repository -y ppa:chris-lea/zeromq
-            sudo add-apt-repository -y ppa:chris-lea/node.js
-        elif [[ $ubuntu_major_version -lt '15' ]]; then
-            sudo add-apt-repository -y ppa:jtaylor/ipython
+        elif [[ $ubuntu_major_version -lt '14' ]]; then # 12.xx
+            sudo -E add-apt-repository -y ppa:chris-lea/zeromq
+        elif [[ $ubuntu_major_version -lt '15' ]]; then # 14.xx
+	    sudo -E apt-get install -y software-properties-common
+            sudo -E add-apt-repository -y ppa:jtaylor/ipython
         else
             sudo apt-get install -y software-properties-common \
-                libgraphicsmagick1-dev nodejs npm libfftw3-dev sox libsox-dev \
+                libgraphicsmagick1-dev libfftw3-dev sox libsox-dev \
                 libsox-fmt-all
-        fi
-
-        gcc_major_version=$(gcc --version | grep ^gcc | awk '{print $4}' | \
-                            cut -c 1)
-        if [[ $gcc_major_version == '5' ]]; then
-            echo '==> Found GCC 5, installing GCC 4.9.'
-            sudo apt-get install -y gcc-4.9 libgfortran-4.9-dev g++-4.9
         fi
 
         sudo apt-get update
@@ -164,6 +157,13 @@ elif [[ "$(uname)" == 'Linux' ]]; then
             cmake libreadline-dev git-core libqt4-dev libjpeg-dev \
             libpng-dev ncurses-dev imagemagick libzmq3-dev gfortran \
             unzip gnuplot gnuplot-x11 ipython
+
+        gcc_major_version=$(gcc --version | grep ^gcc | awk '{print $4}' | \
+                            cut -c 1)
+        if [[ $gcc_major_version == '5' ]]; then
+            echo '==> Found GCC 5, installing GCC 4.9.'
+            sudo apt-get install -y gcc-4.9 libgfortran-4.9-dev g++-4.9
+        fi
 
         if [[ $ubuntu_major_version -lt '14' ]]; then
             # Install from source after installing git and build-essential
@@ -189,13 +189,12 @@ elif [[ "$(uname)" == 'Linux' ]]; then
         if [[ $elementary_version == '0.3' ]]; then
             echo '==> Found Ubuntu version 14.xx based elementary installation, installing dependencies'
             sudo apt-get install -y software-properties-common \
-                libgraphicsmagick1-dev nodejs npm libfftw3-dev sox libsox-dev \
+                libgraphicsmagick1-dev libfftw3-dev sox libsox-dev \
                 libsox-fmt-all
 
-            sudo add-apt-repository -y ppa:jtaylor/ipython
+            sudo -E add-apt-repository -y ppa:jtaylor/ipython
         else
-            sudo add-apt-repository -y ppa:chris-lea/zeromq
-            sudo add-apt-repository -y ppa:chris-lea/node.js
+            sudo -E add-apt-repository -y ppa:chris-lea/zeromq
         fi
         sudo apt-get update
         sudo apt-get install -y "${target_pkgs[@]}"
@@ -230,32 +229,40 @@ elif [[ "$(uname)" == 'Linux' ]]; then
         if [[ $fedora_major_version == '20' ]]; then
             sudo yum install -y cmake curl readline-devel ncurses-devel \
                                 gcc-c++ gcc-gfortran git gnuplot unzip \
-                                nodejs npm libjpeg-turbo-devel libpng-devel \
+                                libjpeg-turbo-devel libpng-devel \
                                 ImageMagick GraphicsMagick-devel fftw-devel \
                                 sox-devel sox zeromq3-devel \
                                 qt-devel qtwebkit-devel sox-plugins-freeworld \
                                 ipython
             install_openblas || true
-        elif [[ $fedora_major_version == '22' ||  $fedora_major_version == '23'  ]]; then
+        elif [[ $fedora_major_version == '22' ||  $fedora_major_version == '23' ]]; then
             #using dnf - since yum has been deprecated
             #sox-plugins-freeworld is not yet available in repos for F22
-            sudo dnf install -y cmake curl readline-devel ncurses-devel \
-            			gcc-c++ gcc-gfortran git gnuplot unzip \
-            			nodejs npm libjpeg-turbo-devel libpng-devel \
-            			ImageMagick GraphicsMagick-devel fftw-devel \
-            			sox-devel sox qt-devel qtwebkit-devel \
-            			python-ipython czmq czmq-devel
+            sudo dnf install -y make cmake curl readline-devel ncurses-devel \
+                                gcc-c++ gcc-gfortran git gnuplot unzip \
+                                libjpeg-turbo-devel libpng-devel \
+                                ImageMagick GraphicsMagick-devel fftw-devel \
+                                sox-devel sox qt-devel qtwebkit-devel \
+                                python-ipython czmq czmq-devel
+            install_openblas || true
+        elif [[ $fedora_major_version == '24' ]]; then
+            sudo dnf install -y make cmake curl readline-devel ncurses-devel \
+                                gcc-c++ gcc-gfortran git gnuplot unzip \
+                                libjpeg-turbo-devel libpng-devel \
+                                ImageMagick GraphicsMagick-devel fftw-devel \
+                                sox-devel sox qt-devel qtwebkit-devel \
+                                python-ipython czmq czmq-devel
             install_openblas || true
         else
-            echo "Only Fedora 20 or Fedora 22 is supported for now, aborting."
+            echo "Only Fedora 20-24 are supported for now, aborting."
             exit 1
         fi
     elif [[ $distribution == 'centos' ]]; then
         if [[ $centos_major_version == '7' ]]; then
             sudo yum install -y epel-release # a lot of things live in EPEL
-            sudo yum install -y cmake curl readline-devel ncurses-devel \
+            sudo yum install -y make cmake curl readline-devel ncurses-devel \
                                 gcc-c++ gcc-gfortran git gnuplot unzip \
-                                nodejs npm libjpeg-turbo-devel libpng-devel \
+                                libjpeg-turbo-devel libpng-devel \
                                 ImageMagick GraphicsMagick-devel fftw-devel \
                                 sox-devel sox zeromq3-devel \
                                 qt-devel qtwebkit-devel sox-plugins-freeworld
@@ -268,7 +275,7 @@ elif [[ "$(uname)" == 'Linux' ]]; then
     elif [[ $distribution == 'amzn' ]]; then
         sudo yum install -y cmake curl readline-devel ncurses-devel \
                             gcc-c++ gcc-gfortran git gnuplot unzip \
-                            nodejs npm libjpeg-turbo-devel libpng-devel \
+                            libjpeg-turbo-devel libpng-devel \
                             ImageMagick GraphicsMagick-devel fftw-devel \
                             libgfortran python27-pip git openssl-devel
 
@@ -283,16 +290,21 @@ elif [[ "$(uname)" == 'Linux' ]]; then
         install_openblas || true
     fi
 
+elif [[ "$(uname)" == 'FreeBSD' ]]; then
+    pkg install ImageMagick cmake curl fftw3 git gnuplot libjpeg-turbo \
+        libzmq3 ncurses openblas openssl png py27-ipython \
+        py27-pip qt4-corelib qt4-gui readline unzip
+
 else
     # Unsupported
     echo '==> platform not supported, aborting'
     exit 1
 fi
 
-ipython_exists=$(command -v ipython)
+ipython_exists=$(command -v ipython) || true
 if [[ $ipython_exists ]]; then {
     ipython_version=$(ipython --version|cut -f1 -d'.')
-    if [[ $ipython_version != 2 && $ipython_version != 3 && $ipython_version != 4 ]]; then {
+    if [[ $ipython_version -lt 2 ]]; then {
         echo 'WARNING: Your ipython version is too old.  Type "ipython --version" to see this.  Should be at least version 2'
     } fi
 } fi

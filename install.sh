@@ -28,11 +28,11 @@ This script will install Torch and related, useful packages into $PREFIX.
 done
 
 
-# Scrub an anaconda install, if exists, from the PATH.
+# Scrub an anaconda/conda install, if exists, from the PATH.
 # It has a malformed MKL library (as of 1/17/2015)
 OLDPATH=$PATH
-if [[ $(echo $PATH | grep anaconda) ]]; then
-    export PATH=$(echo $PATH | tr ':' '\n' | grep -v "anaconda/bin" | grep -v "anaconda/lib" | grep -v "anaconda/include" | uniq | tr '\n' ':')
+if [[ $(echo $PATH | grep conda) ]]; then
+    export PATH=$(echo $PATH | tr ':' '\n' | grep -v "conda[2-9]\?/bin" | grep -v "conda[2-9]\?/lib" | grep -v "conda[2-9]\?/include" | uniq | tr '\n' ':')
 fi
 
 echo "Prefix set to $PREFIX"
@@ -62,6 +62,11 @@ cd ..
 
 # Check for a CUDA install (using nvcc instead of nvidia-smi for cross-platform compatibility)
 path_to_nvcc=$(which nvcc)
+if [ $? == 1 ]; then { # look for it in /usr/local
+  if [[ -f /usr/local/cuda/bin/nvcc ]]; then {
+    path_to_nvcc=/usr/local/cuda/bin/nvcc
+  } fi
+} fi
 
 # check if we are on mac and fix RPATH for local install
 path_to_install_name_tool=$(which install_name_tool 2>/dev/null)
@@ -72,6 +77,14 @@ then
    else
        install_name_tool -id ${PREFIX}/lib/liblua.dylib ${PREFIX}/lib/liblua.dylib
    fi
+fi
+
+if [ -x "$path_to_nvcc" ] || [ -x "$path_to_nvidiasmi" ]
+then
+    echo "Found CUDA on your machine. Installing CMake 3.6 modules to get up-to-date FindCUDA"
+    cd ${THIS_DIR}/cmake/3.6 && \
+(cmake -E make_directory build && cd build && cmake .. -DCMAKE_INSTALL_PREFIX="${PREFIX}" \
+        && make install) && echo "FindCuda bits of CMake 3.6 installed" || exit 1
 fi
 
 setup_lua_env_cmd=$($PREFIX/bin/luarocks path)
@@ -113,26 +126,16 @@ cd ${THIS_DIR}/extra/nnx            && $PREFIX/bin/luarocks make nnx-0.1-1.rocks
 cd ${THIS_DIR}/exe/qtlua            && $PREFIX/bin/luarocks make rocks/qtlua-scm-1.rockspec
 cd ${THIS_DIR}/pkg/qttorch          && $PREFIX/bin/luarocks make rocks/qttorch-scm-1.rockspec
 cd ${THIS_DIR}/extra/threads        && $PREFIX/bin/luarocks make rocks/threads-scm-1.rockspec
-cd ${THIS_DIR}/extra/graphicsmagick && $PREFIX/bin/luarocks make graphicsmagick-1.scm-0.rockspec
 cd ${THIS_DIR}/extra/argcheck       && $PREFIX/bin/luarocks make rocks/argcheck-scm-1.rockspec
-cd ${THIS_DIR}/extra/audio          && $PREFIX/bin/luarocks make audio-0.1-0.rockspec
-cd ${THIS_DIR}/extra/fftw3          && $PREFIX/bin/luarocks make rocks/fftw3-scm-1.rockspec
-cd ${THIS_DIR}/extra/signal         && $PREFIX/bin/luarocks make rocks/signal-scm-1.rockspec
 
 # Optional CUDA packages
 if [ -x "$path_to_nvcc" ]
 then
     echo "Found CUDA on your machine. Installing optional CUDA packages"
     cd ${THIS_DIR}/extra/cudnn   && $PREFIX/bin/luarocks make cudnn-scm-1.rockspec
-    cd ${THIS_DIR}/extra/cunnx   && $PREFIX/bin/luarocks make rocks/cunnx-scm-1.rockspec
 fi
 
 export PATH=$OLDPATH # Restore anaconda distribution if we took it out.
-
-if [[ $SKIP_RC == 1 ]]; then
-  exit 0
-fi
-
 
 # Add C libs to LUA_CPATH
 if [[ `uname` == "Darwin" ]]; then
@@ -149,6 +152,10 @@ export DYLD_LIBRARY_PATH=$PREFIX/lib:\$DYLD_LIBRARY_PATH
 export LUA_CPATH='$CLIB_LUA_CPATH;'\$LUA_CPATH
 EOF
 chmod +x $PREFIX/bin/torch-activate
+
+if [[ $SKIP_RC == 1 ]]; then
+  exit 0
+fi
 
 RC_FILE=0
 DEFAULT=yes
