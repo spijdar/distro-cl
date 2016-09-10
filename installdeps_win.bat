@@ -25,8 +25,11 @@ set "PATH=%PATH%;C:\Program Files (x86)\CMake\bin"
 
 powershell Set-ExecutionPolicy unrestricted
 
+mkdir C:\Downloads
+set DOWNLOADS=C:\Downloads
+
 rem install cmder
-cd /d "%USERPROFILE%\Downloads"
+cd /d "%DOWNLOADS%"
 powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('https://github.com/cmderdev/cmder/releases/download/v1.3.0/cmder_mini.zip', 'cmder_mini.zip')
 if errorlevel 1 exit /B 1
 mkdir cmder
@@ -35,7 +38,7 @@ cd cmder
 if errorlevel 1 exit /B 1
 
 rem install msys2 x64
-cd /d "%USERPROFILE%\Downloads"
+cd /d "%DOWNLOADS%"
 powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('https://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-base-x86_64-20160205.tar.xz/download', 'msys2-base-x86_64-20160205.tar.xz')
 if errorlevel 1 exit /B 1
 "c:\program files\7-Zip\7z.exe" x msys2-base-x86_64-20160205.tar.xz

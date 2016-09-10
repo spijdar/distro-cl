@@ -10,8 +10,8 @@ rem     (seems to be added to PATH)
 rem - python 3.5 is available at c:\py35-64 (python 3.5.2-amd64)
 rem - cygwin64 available at c:\cygwin64
 rem - 7zip available at C:\Program Files\7-Zip\7z.exe (7z920-x64 ?)
-rem - cmder lite installed at "%USERPROFILE%\Downloads\cmder"
-rem - msys64 at "%USERPROFILE%\Downloads\msys64"
+rem - cmder lite installed at "C:\Downloads\cmder"
+rem - msys64 at "C:\Downloads\msys64"
 rem
 rem Target build:
 rem - windows 64 bit
@@ -37,7 +37,7 @@ call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
 set "PATH=%PATH%;C:\Program Files (x86)\CMake\bin"
 set "PATH=%PATH%;C:\Program Files\Git\bin"
 
-set "DOWNLOADS=%USERPROFILE%\Downloads"
+set "DOWNLOADS=C:\Downloads"
 set "BASE=%CD%"
 echo BASE: %BASE%
 echo DOWNLOADS %DOWNLOADS%
