@@ -35,6 +35,7 @@ rem based heavily/entirely on what hiili wrote at https://github.com/torch/torch
 
 "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
 set "PATH=%PATH%;C:\Program Files (x86)\CMake\bin"
+set "PATH=%PATH%;C:\Program Files\Git\bin"
 
 set "BASE=%CD%"
 echo BASE: %BASE%
