@@ -52,7 +52,7 @@ ping -n 20 127.0.0.1
 rem really we should someone monitor the process thats running, and wait for it to finish
 cmd /c msys2_shell -c "pacman -Sy pacman --noconfirm"
 ping -n 20 127.0.0.1
-cmd /c msys2_shell -c "pacman -Sy pacman --noconfirm"
+cmd /c msys2_shell -c "pacman -Syu pacman --noconfirm"
 ping -n 20 127.0.0.1
 cmd /c msys2_shell -c "pacman -Sy git tar make mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran --noconfirm"
 ping -n 60 127.0.0.1
