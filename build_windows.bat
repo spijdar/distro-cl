@@ -37,9 +37,10 @@ call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
 set "PATH=%PATH%;C:\Program Files (x86)\CMake\bin"
 set "PATH=%PATH%;C:\Program Files\Git\bin"
 
-set "DOWNLOADS=%USERPROFILE\Downloads"
+set "DOWNLOADS=%USERPROFILE%\Downloads"
 set "BASE=%CD%"
 echo BASE: %BASE%
+echo DOWNLOADS %DOWNLOADS%
 
 rmdir /s /q "%BASE%\soft"
 mkdir "%BASE%\soft"
