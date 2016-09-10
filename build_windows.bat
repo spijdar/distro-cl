@@ -35,7 +35,7 @@ rem based heavily/entirely on what hiili wrote at https://github.com/torch/torch
 
 rem call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\bin\amd64\vcvars64.bat"
-set "PATH=%PATH%;C:\Program Files (x86)\CMake\bin"
+set "PATH=%PATH%;C:\Program Files\CMake\bin"
 set "PATH=%PATH%;C:\Program Files\Git\bin"
 
 set "DOWNLOADS=C:\Downloads"

@@ -8,7 +8,7 @@ rem   'Microsoft Windows Server 2012 R2 Base', from 'Quick Start')
 rem - visual studio 2015 community installed, in default location:
 rem    C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat
 rem    (includes nmake)
-rem - cmake installed at C:\Program Files (x86)\CMake\bin\cmake.exe (3.2.2 x86?)
+rem - cmake installed at C:\Program Files\CMake\bin\cmake.exe (cmake-3.6.2-win64-x64)
 rem - msys git available at C:\Program Files\Git (git-2.9.2 64-bit?)
 rem     (seems to be added to PATH)
 rem - python 3.5 is available at c:\py35-64 (python 3.5.2-amd64)
@@ -21,7 +21,7 @@ rem - windows 64 bit
 rem - cpu architecture etc on a g2.2xlarge ec2 box
 
 "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
-set "PATH=%PATH%;C:\Program Files (x86)\CMake\bin"
+set "PATH=%PATH%;C:\Program Files\CMake\bin"
 
 powershell Set-ExecutionPolicy unrestricted
 

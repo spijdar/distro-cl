@@ -1,4 +1,4 @@
-set "PATH=%PATH%;C:\Program Files (x86)\CMake\bin"
+set "PATH=%PATH%;C:\Program Files\CMake\bin"
 
 if %1 == -E  (
 cmake.exe  %* 

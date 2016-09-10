@@ -9,7 +9,8 @@ cd lapack-3.6.1
 mkdir build
 cd build
 mkdir -p "${BASE}/install/lua/5.1"
-"C:\Program Files (x86)\CMake\bin\cmake" "-DCMAKE_INSTALL_PREFIX=${BASE}/install" -G "MSYS Makefiles" -DBUILD_SHARED_LIBS=1 -DCMAKE_GNUtoMS=1 "-DCMAKE_GNUtoMS_VCVARS=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\bin\amd64\vcvars64.bat" -DCMAKE_Fortran_COMPILER=/mingw64/bin/x86_64-w64-mingw32-gfortran.exe ..
+# "C:\Program Files\CMake\bin\cmake" "-DCMAKE_INSTALL_PREFIX=${BASE}/install" -G "MSYS Makefiles" -DBUILD_SHARED_LIBS=1 -DCMAKE_GNUtoMS=1 "-DCMAKE_GNUtoMS_VCVARS=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\bin\amd64\vcvars64.bat" -DCMAKE_Fortran_COMPILER=/mingw64/bin/x86_64-w64-mingw32-gfortran.exe ..
+"C:\Program Files\CMake\bin\cmake" "-DCMAKE_INSTALL_PREFIX=${BASE}/install" -G "MSYS Makefiles" -DBUILD_SHARED_LIBS=1 -DCMAKE_GNUtoMS=1 -DCMAKE_Fortran_COMPILER=/mingw64/bin/x86_64-w64-mingw32-gfortran.exe ..
 make -j 8
 make install
 
