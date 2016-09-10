@@ -82,27 +82,30 @@ if errorlevel 1 exit /B 1
 cmake -DCMAKE_INSTALL_PREFIX=%BASE%/install -G "NMake Makefiles" -P cmake_install.cmake -DCMAKE_BUILD_TYPE=Release
 if errorlevel 1 exit /B 1
 
-set "LUA_CPATH=%BASE%/install/?.DLL;X:/torch/install/LIB/?.DLL;?.DLL"
+set "LUA_CPATH=%BASE%/install/?.DLL;%BASE%/install/LIB/?.DLL;?.DLL"
 set "LUA_DEV=%BASE%/install"
 set "LUA_PATH=;;%BASE%/install/?;%BASE%/install/?.lua;%BASE%/install/lua/?;%BASE%/install/lua/?.lua;%BASE%/install/lua/?/init.lua
 set "PATH=%PATH%;%BASE%\install"
 luajit -e "print('ok')"
-if errorlevel 1 exit /B 1
-luarocks
-if errorlevel 1 exit /B 1
+if errorlevel 1 goto :error
+echo did luajit
+cmd /c luarocks
+if errorlevel 1 goto :error
+echo did luarocks
 
 copy "%BASE%\win-files\cmake.cmd" "%BASE%\install"
-if errorlevel 1 exit /B 1
+if errorlevel 1 exit goto :error
+echo did copy of cmake
 
 rmdir /s /q "%BASE%\rocks"
 mkdir "%BASE%\rocks"
 cd "%BASE%\rocks"
-luarocks download torch
-if errorlevel 1 exit /B 1
+cmd /c luarocks download torch
+if errorlevel 1 goto :error
 
 cd "%BASE%\pkg\torch"
 git checkout 7bbe17917ea560facdc652520e5ea01692e460d3
-luarocks make "%BASE%\rocks\torch-scm-1.rockspec"
+cmd /c luarocks make "%BASE%\rocks\torch-scm-1.rockspec"
 if errorlevel 1 exit /B 1
 
 luajit -e "require('torch')"
@@ -110,3 +113,9 @@ if errorlevel 1 exit /B 1
 
 luajit -e "require('torch'); torch.test()"
 if errorlevel 1 exit /B 1
+
+goto :eof
+
+:error
+echo something went wrong ...
+exit 1
