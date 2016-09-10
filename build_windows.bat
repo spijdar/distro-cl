@@ -59,15 +59,8 @@ dir lapack-3.6.1
 cd lapack-3.6.1
 mkdir build
 cd build
-
 set "SOFT=%BASE%\soft"
 cmd /c %DOWNLOADS%\msys64\usr\bin\bash.exe "%BASE%\win-files\install_lapack.sh"
-rem "%USERPROFILE\Downloads\msys64\mingw64.exe" "%BASE%\win-files\install_lapack.sh"
-rem:wait_sh
-rem    rem poor man's sleep
-rem    ping -n 1 127.0.0.1
-rem    dir %SOFT%\lapack_done.flg
-rem    if errorlevel 1 goto :wait_sh
 
 echo luajit-rocks
 git clone https://github.com/torch/luajit-rocks.git
@@ -97,15 +90,12 @@ copy "%BASE%\win-files\cmake.cmd" "%BASE%\install"
 if errorlevel 1 exit goto :error
 echo did copy of cmake
 
-rmdir /s /q "%BASE%\rocks"
-mkdir "%BASE%\rocks"
-cd "%BASE%\rocks"
-cmd /c luarocks download torch
-if errorlevel 1 goto :error
-
+cd "%BASE%\pkg"
+git submodule init torch
+git submodule update torch
 cd "%BASE%\pkg\torch"
 git checkout 7bbe17917ea560facdc652520e5ea01692e460d3
-cmd /c luarocks make "%BASE%\rocks\torch-scm-1.rockspec"
+cmd /c luarocks make "%BASE%\win-files\torch-scm-1.rockspec"
 if errorlevel 1 exit /B 1
 
 luajit -e "require('torch')"
