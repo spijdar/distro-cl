@@ -1,15 +1,28 @@
 rem assumptions:
+rem
 rem - ec2 windows 2012 r2 default box (eg ami-281ad849, or equivalent, in ec2, click 'Launch' and select
 rem   'Microsoft Windows Server 2012 R2 Base', from 'Quick Start')
+rem
 rem - visual studio 2015 community installed, in default location:
 rem    C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat
 rem    (includes nmake)
-rem - cmake installed at C:\Program Files (x86)\CMake\bin\cmake.exe (3.6.2-amd64)
-rem - msys git available at C:\Program Files\Git (git-2.9.2 64-bit)
-rem - 7zip available at C:\Program Files\7-Zip\7z.exe (7z920-x64)
-rem - msys64 at "C:\Downloads\msys64"
 rem
-rem Not used currently, but assumed avaliable:
+rem - cmake installed at C:\Program Files (x86)\CMake\bin\cmake.exe (3.6.2-amd64)
+rem       https://cmake.org/files/v3.6/cmake-3.6.2-win64-x64.msi
+rem
+rem - msys git available at C:\Program Files\Git (git-2.9.2 64-bit)
+rem       latest: https://github.com/git-for-windows/git/releases/download/v2.10.0.windows.1/Git-2.10.0-64-bit.exe
+rem       2.9.2 64-bit: https://github.com/git-for-windows/git/releases/download/v2.9.2.windows.1/Git-2.9.2-64-bit.exe
+rem
+rem - 7zip available at C:\Program Files\7-Zip\7z.exe (7z920-x64)
+rem       7z920-x64: http://7-zip.org/a/7z920-x64.msi
+rem
+rem - msys64 at "C:\Downloads\msys64"
+rem       (intalled by installdeps_win.bat, but we should probalby just move it into this build script, and build it
+rem        as part of the CI build)
+rem
+rem
+rem Not used currently, but assumed avaliable (can ignore for now, if preparing a jenkins agent):
 rem - python 3.5 is available at c:\py35-64 (python 3.5.2-amd64) (not used currently)
 rem - cygwin64 available at c:\cygwin64 (not needed currently)
 rem - cmder lite installed at "C:\Downloads\cmder" (not used currently)
