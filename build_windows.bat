@@ -37,6 +37,7 @@ call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
 set "PATH=%PATH%;C:\Program Files (x86)\CMake\bin"
 set "PATH=%PATH%;C:\Program Files\Git\bin"
 
+set "DOWNLOADS=%USERPROFILE\Downloads"
 set "BASE=%CD%"
 echo BASE: %BASE%
 
@@ -51,19 +52,21 @@ powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('http://w
 if errorlevel 1 exit /B 1
 "c:\program files\7-Zip\7z.exe" x lapack-3.6.1.tgz
 if errorlevel 1 exit /B 1
-"c:\program files\7-Zip\7z.exe" x lapack-3.6.1.tar
+"c:\program files\7-Zip\7z.exe" x lapack-3.6.1.tar >nul
 if errorlevel 1 exit /B 1
+dir lapack-3.6.1
 cd lapack-3.6.1
 mkdir build
 cd build
 
 set "SOFT=%BASE%\soft"
-"%USERPROFILE\Downloads\msys64\mingw64.exe" "%BASE%\win-files\install_lapack.sh"
-:wait_sh
-    rem poor man's sleep
-    ping -n 1 127.0.0.1
-    dir %SOFT%\lapack_done.flg
-    if errorlevel 1 goto :wait_sh
+cmd /c %DOWNLOADS%\msys64\usr\bin\bash.exe "%BASE%\win-files\install_lapack.sh"
+rem "%USERPROFILE\Downloads\msys64\mingw64.exe" "%BASE%\win-files\install_lapack.sh"
+rem:wait_sh
+rem    rem poor man's sleep
+rem    ping -n 1 127.0.0.1
+rem    dir %SOFT%\lapack_done.flg
+rem    if errorlevel 1 goto :wait_sh
 
 echo luajit-rocks
 git clone https://github.com/torch/luajit-rocks.git

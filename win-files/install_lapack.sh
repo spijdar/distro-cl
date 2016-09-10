@@ -2,6 +2,8 @@ echo SOFT $SOFT
 echo BASE $BASE
 echo DOWNLOADS $DOWNLOADS
 
+PATH=/mingw64/bin:/usr/bin
+
 cd "${SOFT}"
 cd lapack-3.6.1
 mkdir build
@@ -15,4 +17,4 @@ pushd /mingw64/bin
 cp libgcc_s_seh-1.dll, libgfortran-3.dll, libquadmath-0.dll, libwinpthread-1.dll "${BASE}/install/lua/5.1"
 popd
 
-touch "${SOFT}/lapack_done.flg"
+# touch "${SOFT}/lapack_done.flg"
