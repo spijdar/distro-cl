@@ -33,7 +33,7 @@ rem     cd torch
 
 rem based heavily/entirely on what hiili wrote at https://github.com/torch/torch7/wiki/Windows#using-visual-studio
 
-"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
+call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
 set "PATH=%PATH%;C:\Program Files (x86)\CMake\bin"
 set "PATH=%PATH%;C:\Program Files\Git\bin"
 
