@@ -3,9 +3,8 @@ rem
 rem - ec2 windows 2012 r2 default box (eg ami-281ad849, or equivalent, in ec2, click 'Launch' and select
 rem   'Microsoft Windows Server 2012 R2 Base', from 'Quick Start')
 rem
-rem - visual studio 2015 community installed, in default location:
-rem    C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat
-rem    (includes nmake)
+rem - visual studio 2015 community
+rem    https://beta.visualstudio.com/vs/community/
 rem
 rem - cmake installed at C:\Program Files (x86)\CMake\bin\cmake.exe (3.6.2-amd64)
 rem       https://cmake.org/files/v3.6/cmake-3.6.2-win64-x64.msi
