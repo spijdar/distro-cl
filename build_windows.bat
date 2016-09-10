@@ -44,6 +44,7 @@ mkdir "%BASE%\soft"
 
 rem install lapack; I debated whether to put it in 'build' or 'installdeps', but decided 'build' is  maybe better,
 rem on the basis that it might be less stable, subject to changes/bugs/tweaks than eg 7zip install?
+rem (and also it is architecture specific etc, probalby subject to device-specific optimizations?)
 cd /d "%BASE%\soft"
 powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('http://www.netlib.org/lapack/lapack-3.6.1.tgz', 'lapack-3.6.1.tgz')
 if errorlevel 1 exit /B 1
@@ -55,14 +56,13 @@ cd lapack-3.6.1
 mkdir build
 cd build
 
-rem lapack build doesnt work yet
-rem set "SOFT=%BASE%\soft"
-rem "%USERPROFILE\Downloads\msys64\msys2.exe" "%BASE%\win-files\install_lapack.sh"
-rem :wait_sh
-rem rem poor man's sleep
-rem ping -n 1 127.0.0.1
-rem dir %SOFT%\lapack_done.flg
-rem if errorlevel 1 goto :wait_sh
+set "SOFT=%BASE%\soft"
+"%USERPROFILE\Downloads\msys64\mingw64.exe" "%BASE%\win-files\install_lapack.sh"
+:wait_sh
+    rem poor man's sleep
+    ping -n 1 127.0.0.1
+    dir %SOFT%\lapack_done.flg
+    if errorlevel 1 goto :wait_sh
 
 echo luajit-rocks
 git clone https://github.com/torch/luajit-rocks.git
