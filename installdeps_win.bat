@@ -8,14 +8,7 @@ rem   'Microsoft Windows Server 2012 R2 Base', from 'Quick Start')
 rem - visual studio 2015 community installed, in default location:
 rem    C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat
 rem    (includes nmake)
-rem - cmake installed at C:\Program Files\CMake\bin\cmake.exe (cmake-3.6.2-win64-x64)
-rem - msys git available at C:\Program Files\Git (git-2.9.2 64-bit)
-rem - 7zip available at C:\Program Files\7-Zip\7z.exe (7z920-x64)
 rem - powershell available
-rem
-rem Not used, but assumed available:
-rem - python 3.5 is available at c:\py35-64 (python 3.5.2-amd64)
-rem - cygwin64 available at c:\cygwin64
 rem
 rem Target build:
 rem - windows 64 bit
@@ -28,6 +21,23 @@ powershell Set-ExecutionPolicy unrestricted
 
 mkdir C:\Downloads
 set DOWNLOADS=C:\Downloads
+
+rem download stuff
+cd /d "%DOWNLOADS%"
+
+powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('http://7-zip.org/a/7z920-x64.msi', '7x920-x64.msi')
+msiexec /passive /i 7x920-x64.msi
+rem poor man's sleep :-P
+ping -n 10 127.0.0.1
+
+powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('https://cmake.org/files/v3.6/cmake-3.6.2-win64-x64.msi', 'cmake-3.6.2-win64-x64.msi')
+msiexec /passive /i cmake-3.6.2-win64-x64.msi
+rem poor man's sleep :-P
+ping -n 10 127.0.0.1
+
+powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('https://github.com/git-for-windows/git/releases/download/v2.9.2.windows.1/Git-2.9.2-64-bit.exe', 'Git-2.9.2-64-bit.exe')
+Git-2.9.2-64-bit.exe /silent
+ping -n 30 127.0.0.1
 
 rem install cmder
 cd /d "%DOWNLOADS%"
