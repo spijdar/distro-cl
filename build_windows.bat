@@ -4,27 +4,25 @@ rem   'Microsoft Windows Server 2012 R2 Base', from 'Quick Start')
 rem - visual studio 2015 community installed, in default location:
 rem    C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat
 rem    (includes nmake)
-rem - cmake installed at C:\Program Files (x86)\CMake\bin\cmake.exe (3.2.2 x86?)
-rem - msys git available at C:\Program Files\Git (git-2.9.2 64-bit?)
-rem     (seems to be added to PATH)
-rem - python 3.5 is available at c:\py35-64 (python 3.5.2-amd64)
-rem - cygwin64 available at c:\cygwin64
-rem - 7zip available at C:\Program Files\7-Zip\7z.exe (7z920-x64 ?)
-rem - cmder lite installed at "C:\Downloads\cmder"
+rem - cmake installed at C:\Program Files (x86)\CMake\bin\cmake.exe (3.6.2-amd64)
+rem - msys git available at C:\Program Files\Git (git-2.9.2 64-bit)
+rem - 7zip available at C:\Program Files\7-Zip\7z.exe (7z920-x64)
+rem
+rem Not used currently, but assumed avaliable:
+rem - python 3.5 is available at c:\py35-64 (python 3.5.2-amd64) (not used currently)
+rem - cygwin64 available at c:\cygwin64 (not needed currently)
+rem - cmder lite installed at "C:\Downloads\cmder" (not used currently)
 rem - msys64 at "C:\Downloads\msys64"
 rem
 rem Target build:
 rem - windows 64 bit
 rem - cpu architecture etc on a g2.2xlarge ec2 box
 rem
-rem
-rem Notes:
-rem - this ignores LAPACK for now
-rem
 rem environment:
-rem - jenkins slave
+rem - jenkins agent
 rem - running out of a job/workspace directory
 rem - on C: drive, eg c:\jenkins\workspace\[job name]
+rem - workspace is wiped at start of each job (this is an option in the 'git' section of a jenkins job)
 rem - we are in a directory containing this (distro-win) already cloned, by virtue of the jenkins job bringing it down
 rem - to simulate this enviornment, open a cmd, and run:
 rem
