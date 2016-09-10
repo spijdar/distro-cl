@@ -48,6 +48,8 @@ echo DOWNLOADS %DOWNLOADS%
 rmdir /s /q "%BASE%\soft"
 mkdir "%BASE%\soft"
 
+git submodule update --init --recursive
+
 rem install lapack; I debated whether to put it in 'build' or 'installdeps', but decided 'build' is  maybe better,
 rem on the basis that it might be less stable, subject to changes/bugs/tweaks than eg 7zip install?
 rem (and also it is architecture specific etc, probalby subject to device-specific optimizations?)
@@ -93,9 +95,9 @@ copy "%BASE%\win-files\cmake.cmd" "%BASE%\install"
 if errorlevel 1 exit goto :error
 echo did copy of cmake
 
-cd "%BASE%\pkg"
-git submodule init torch
-git submodule update torch
+rem cd "%BASE%\pkg"
+rem git submodule init torch
+rem git submodule update torch
 cd "%BASE%\pkg\torch"
 git checkout 7bbe17917ea560facdc652520e5ea01692e460d3
 cmd /c luarocks make "%BASE%\win-files\torch-scm-1.rockspec"
