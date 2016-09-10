@@ -40,30 +40,17 @@ powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('https://
 if errorlevel 1 exit /B 1
 "c:\program files\7-Zip\7z.exe" x msys2-base-x86_64-20160205.tar.xz
 if errorlevel 1 exit /B 1
-"c:\program files\7-Zip\7z.exe" x msys2-base-x86_64-20160205.tar
+"c:\program files\7-Zip\7z.exe" x msys2-base-x86_64-20160205.tar >nul
 if errorlevel 1 exit /B 1
 cd msys64
-start "msyssetup" msys2_shell.bat
-rem this will spawn a window, and lazily leave it open.  Not sure if there's a way to give the shell an 'exit' command?
-rem -c "exit"   ?
-start "msyssetup" msys2_shell.bat -c "pacman -Sy git tar make mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran"
-rem this will ask you to confirm with 'y' for now.  not sure if there is a way of suppressing this question?
-
-rem install lapack
-cd /d "%USERPROFILE%\Downloads"
-powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('http://www.netlib.org/lapack/lapack-3.6.1.tgz', 'lapack-3.6.1.tgz')
-if errorlevel 1 exit /B 1
-"c:\program files\7-Zip\7z.exe" x lapack-3.6.1.tgz
-if errorlevel 1 exit /B 1
-"c:\program files\7-Zip\7z.exe" x lapack-3.6.1.tar
-if errorlevel 1 exit /B 1
-
-rem rem this bit differs from hilli's build, because it uses msvc, rather than msys.  not sure if this is a good idea or
-rem rem not???
-rem cd lapack-3.6.1
-rem mkdir build
-rem cd build
-rem cmake .. -G "Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX=%USERPROFILE%\Downloads\lapack-3.6.1\dist
-rem rem oh I see, needs fortran compiler :-P
-
-
+cmd /c msys2_shell.bat -c "exit"
+rem poor man's sleep:
+ping -n 20 127.0.0.1
+rem really we should someone monitor the process thats running, and wait for it to finish
+cmd /c msys2_shell -c "pacman -Sy pacman --noconfirm"
+ping -n 20 127.0.0.1
+cmd /c msys2_shell -c "pacman -Sy pacman --noconfirm"
+ping -n 20 127.0.0.1
+cmd /c msys2_shell -c "pacman -Sy git tar make mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran --noconfirm"
+ping -n 60 127.0.0.1
+ping -n 60 127.0.0.1

@@ -39,6 +39,31 @@ set "PATH=%PATH%;C:\Program Files (x86)\CMake\bin"
 set "BASE=%CD%"
 echo BASE: %BASE%
 
+rmdir /s /q "%BASE%\soft"
+mkdir "%BASE%\soft"
+
+rem install lapack; I debated whether to put it in 'build' or 'installdeps', but decided 'build' is  maybe better,
+rem on the basis that it might be less stable, subject to changes/bugs/tweaks than eg 7zip install?
+cd /d "%BASE%\soft"
+powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('http://www.netlib.org/lapack/lapack-3.6.1.tgz', 'lapack-3.6.1.tgz')
+if errorlevel 1 exit /B 1
+"c:\program files\7-Zip\7z.exe" x lapack-3.6.1.tgz
+if errorlevel 1 exit /B 1
+"c:\program files\7-Zip\7z.exe" x lapack-3.6.1.tar
+if errorlevel 1 exit /B 1
+cd lapack-3.6.1
+mkdir build
+cd build
+
+rem lapack build doesnt work yet
+rem set "SOFT=%BASE%\soft"
+rem "%USERPROFILE\Downloads\msys64\msys2.exe" "%BASE%\win-files\install_lapack.sh"
+rem :wait_sh
+rem rem poor man's sleep
+rem ping -n 1 127.0.0.1
+rem dir %SOFT%\lapack_done.flg
+rem if errorlevel 1 goto :wait_sh
+
 echo luajit-rocks
 git clone https://github.com/torch/luajit-rocks.git
 if errorlevel 1 exit /B 1
@@ -64,6 +89,7 @@ if errorlevel 1 exit /B 1
 copy "%BASE%\win-files\cmake.cmd" "%BASE%\install"
 if errorlevel 1 exit /B 1
 
+rmdir /s /q "%BASE%\rocks"
 mkdir "%BASE%\rocks"
 cd "%BASE%\rocks"
 luarocks download torch
