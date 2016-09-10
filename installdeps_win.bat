@@ -29,4 +29,3 @@ mkdir cmder
 cd cmder
 "c:\program files\7-Zip\7z.exe" x ..\cmder_mini.zip
 if errorlevel 1 exit /B 1
-

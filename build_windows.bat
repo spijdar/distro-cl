@@ -16,6 +16,10 @@ rem Target build:
 rem - windows 64 bit
 rem - cpu architecture etc on a g2.2xlarge ec2 box
 rem
+rem
+rem Notes:
+rem - this ignores LAPACK for now
+rem
 rem environment:
 rem - jenkins slave
 rem - running out of a job/workspace directory
@@ -36,9 +40,41 @@ echo BASE: %BASE%
 
 echo luajit-rocks
 git clone https://github.com/torch/luajit-rocks.git
+if errorlevel 1 exit /B 1
 cd luajit-rocks
 mkdir build
 cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=%BASE%/install -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release
+if errorlevel 1 exit /B 1
 nmake
+if errorlevel 1 exit /B 1
 cmake -DCMAKE_INSTALL_PREFIX=%BASE%/install -G "NMake Makefiles" -P cmake_install.cmake -DCMAKE_BUILD_TYPE=Release
+if errorlevel 1 exit /B 1
+
+set "LUA_CPATH=%BASE%/install/?.DLL;X:/torch/install/LIB/?.DLL;?.DLL"
+set "LUA_DEV=%BASE%/install"
+set "LUA_PATH=;;%BASE%/install/?;%BASE%/install/?.lua;%BASE%/install/lua/?;%BASE%/install/lua/?.lua;%BASE%/install/lua/?/init.lua
+set "PATH=%PATH%;%BASE%\install"
+luajit -e "print('ok')"
+if errorlevel 1 exit /B 1
+luarocks
+if errorlevel 1 exit /B 1
+
+copy "%BASE%\win-files\cmake.cmd" "%BASE%\install"
+if errorlevel 1 exit /B 1
+
+mkdir "%BASE%\rocks"
+cd "%BASE%\rocks"
+luarocks download torch
+if errorlevel 1 exit /B 1
+
+cd "%BASE%\pkg\torch"
+git checkout 7bbe17917ea560facdc652520e5ea01692e460d3
+luarocks make "%BASE%\rocks\torch-scm-1.rockspec"
+if errorlevel 1 exit /B 1
+
+luajit -e "require('torch')"
+if errorlevel 1 exit /B 1
+
+luajit -e "require('torch'); torch.test()"
+if errorlevel 1 exit /B 1
