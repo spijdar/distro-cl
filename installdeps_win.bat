@@ -5,14 +5,14 @@ rem based heavily on hiili's instructions at https://github.com/torch/torch7/wik
 rem assumptions:
 rem - ec2 windows 2012 r2 default box (eg ami-281ad849, or equivalent, in ec2, click 'Launch' and select
 rem   'Microsoft Windows Server 2012 R2 Base', from 'Quick Start')
-rem - visual studio 2015 community installed, in default location:
-rem    C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat
-rem    (includes nmake)
-rem - powershell available
+rem - powershell available (it is, by default, in above image)
 rem
 rem Target build:
 rem - windows 64 bit
 rem - cpu architecture etc on a g2.2xlarge ec2 box
+rem
+rem Note that this script isnt really standalone currently.  You kind of have to copy and paste a few lines at a
+rem time into the terminal really
 
 "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
 set "PATH=%PATH%;C:\Program Files\CMake\bin"
