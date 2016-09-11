@@ -19,7 +19,6 @@ rem
 rem Not used currently, but assumed avaliable (can ignore for now, if preparing a jenkins agent):
 rem - python 3.5 is available at c:\py35-64 (python 3.5.2-amd64) (not used currently)
 rem - cygwin64 available at c:\cygwin64 (not needed currently)
-rem - cmder lite installed at "C:\Downloads\cmder" (not used currently)
 rem
 rem Target build:
 rem - windows 64 bit
@@ -43,18 +42,17 @@ call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\amd64\vcvars64.
 set "PATH=%PATH%;C:\Program Files\CMake\bin"
 set "PATH=%PATH%;C:\Program Files\Git\bin"
 
-set "DOWNLOADS=C:\Downloads"
 set "BASE=%CD%"
 set "TORCH_INSTALL=%CD%\install"
 
 echo BASE: %BASE%
-echo DOWNLOADS %DOWNLOADS%
 
 rem rmdir /s /q "%BASE%\soft"
 mkdir "%BASE%\soft"
 
 rmdir /s /q pkg\torch
 git submodule update --init pkg/torch
+if errorlevel 1 exit /B 1
 rem git submodule update --init --recursive
 
 rem install msys64

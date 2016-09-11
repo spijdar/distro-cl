@@ -47,20 +47,3 @@ ping -n 10 127.0.0.1
 powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('https://github.com/git-for-windows/git/releases/download/v2.9.2.windows.1/Git-2.9.2-64-bit.exe', 'Git-2.9.2-64-bit.exe')
 Git-2.9.2-64-bit.exe /silent
 ping -n 30 127.0.0.1
-
-rem install msys2 x64
-rem This should probaly be moved to `build_windows.bat` really, since it's kind of complicated... (and quite specific to distro-win really)
-cd /d "%DOWNLOADS%"
-powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('https://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-base-x86_64-20160205.tar.xz/download', 'msys2-base-x86_64-20160205.tar.xz')
-if errorlevel 1 exit /B 1
-"c:\program files\7-Zip\7z.exe" x msys2-base-x86_64-20160205.tar.xz
-if errorlevel 1 exit /B 1
-"c:\program files\7-Zip\7z.exe" x msys2-base-x86_64-20160205.tar >nul
-if errorlevel 1 exit /B 1
-
-rem initialize msys64:
-rem compared to the instructions on the website, using bash direclty is synchronous, and puts the output into our
-rem console/jenkins
-cmd /c msys64\usr\bin\bash --login exit
-cmd /c msys64\usr\bin\bash --login -c "pacman -Syu --noconfirm"
-cmd /c msys64\usr\bin\bash --login -c "pacman -Sy git tar make mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran --noconfirm"
