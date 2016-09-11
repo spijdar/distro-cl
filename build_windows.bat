@@ -112,6 +112,9 @@ cmd /c luarocks
 if errorlevel 1 goto :error
 echo did luarocks
 
+copy /y %BASE%\win-files\torch-activate.bat %BASE%\install\bin
+if errorlevel 1 goto :error
+
 copy "%BASE%\win-files\cmake.cmd" "%BASE%\install"
 if errorlevel 1 exit goto :error
 echo did copy of cmake
