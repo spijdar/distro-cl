@@ -146,7 +146,7 @@ rem cmd /c luarocks make "%BASE%\win-files\luaffi-scm-1.rockspec"
 rem if errorlevel 1 exit /B 1
 
 rem seems we can install nn without ffi???
-cd "%BASE\extra\nn"
+cd "%BASE%\extra\nn"
 cmd /c luarocks make "%BASE%\win-files\nn-scm-1.rockspec"
 if errorlevel 1 exit /B 1
 cmd /c luajit -l nn -e "nn.test()"
