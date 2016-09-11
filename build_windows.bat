@@ -53,6 +53,11 @@ mkdir "%BASE%\soft"
 rmdir /s /q pkg\torch
 git submodule update --init pkg/torch
 if errorlevel 1 exit /B 1
+
+rmdir /s /q extra\nn
+git submodule update --init extra/nn
+if errorlevel 1 exit /B 1
+
 rem git submodule update --init --recursive
 
 rem install msys64
@@ -129,6 +134,22 @@ luajit -e "require('torch')"
 if errorlevel 1 exit /B 1
 
 luajit -e "require('torch'); torch.test()"
+if errorlevel 1 exit /B 1
+
+rem lets try nn :-)
+
+rem luaffib first
+rem cd "%BASE%\soft"
+rem git clone https://github.com/hughperkins/luaffifb -b win64
+rem cd luaffifb
+rem cmd /c luarocks make "%BASE%\win-files\luaffi-scm-1.rockspec"
+rem if errorlevel 1 exit /B 1
+
+rem seems we can install nn without ffi???
+cd "%BASE\extra\nn"
+cmd /c luarocks make "%BASE%\win-files\nn-scm-1.rockspec"
+if errorlevel 1 exit /B 1
+cmd /c luajit -l nn -e "nn.test()"
 if errorlevel 1 exit /B 1
 
 goto :eof
