@@ -16,11 +16,6 @@ rem
 rem - 7zip available at C:\Program Files\7-Zip\7z.exe (7z920-x64)
 rem       7z920-x64: http://7-zip.org/a/7z920-x64.msi
 rem
-rem - msys64 at "C:\Downloads\msys64"
-rem       (intalled by installdeps_win.bat, but we should probalby just move it into this build script, and build it
-rem        as part of the CI build)
-rem
-rem
 rem Not used currently, but assumed avaliable (can ignore for now, if preparing a jenkins agent):
 rem - python 3.5 is available at c:\py35-64 (python 3.5.2-amd64) (not used currently)
 rem - cygwin64 available at c:\cygwin64 (not needed currently)
@@ -62,6 +57,22 @@ rmdir /s /q pkg\torch
 git submodule update --init pkg/torch
 rem git submodule update --init --recursive
 
+rem install msys64
+rem compared to the instructions on the website, using bash direclty is synchronous, and puts the output into our
+rem console/jenkins
+rem we install it here, since it's a bit non-standard (cf 7zip, cmake, msvc2015, which I think are reasonably standard?)
+rem we need it, because we need a fortran compiler
+cd /d "%BASE%\soft"
+powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('https://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-base-x86_64-20160205.tar.xz/download', 'msys2-base-x86_64-20160205.tar.xz')
+if errorlevel 1 exit /B 1
+"c:\program files\7-Zip\7z.exe" x msys2-base-x86_64-20160205.tar.xz
+if errorlevel 1 exit /B 1
+"c:\program files\7-Zip\7z.exe" x msys2-base-x86_64-20160205.tar >nul
+if errorlevel 1 exit /B 1
+cmd /c msys64\usr\bin\bash --login exit
+cmd /c msys64\usr\bin\bash --login -c "pacman -Syu --noconfirm"
+cmd /c msys64\usr\bin\bash --login -c "pacman -Sy git tar make mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran --noconfirm"
+
 rem install lapack; I debated whether to put it in 'build' or 'installdeps', but decided 'build' is  maybe better,
 rem on the basis that it might be less stable, subject to changes/bugs/tweaks than eg 7zip install?
 rem (and also it is architecture specific etc, probalby subject to device-specific optimizations?)
@@ -77,7 +88,7 @@ cd lapack-3.6.1
 mkdir build
 cd build
 set "SOFT=%BASE%\soft"
-cmd /c %DOWNLOADS%\msys64\usr\bin\bash.exe "%BASE%\win-files\install_lapack.sh"
+cmd /c %BASE%\soft\msys64\usr\bin\bash.exe --login "%BASE%\win-files\install_lapack.sh"
 
 echo luajit-rocks
 git clone https://github.com/torch/luajit-rocks.git

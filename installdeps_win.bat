@@ -48,15 +48,6 @@ powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('https://
 Git-2.9.2-64-bit.exe /silent
 ping -n 30 127.0.0.1
 
-rem install cmder
-cd /d "%DOWNLOADS%"
-powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('https://github.com/cmderdev/cmder/releases/download/v1.3.0/cmder_mini.zip', 'cmder_mini.zip')
-if errorlevel 1 exit /B 1
-mkdir cmder
-cd cmder
-"c:\program files\7-Zip\7z.exe" x ..\cmder_mini.zip
-if errorlevel 1 exit /B 1
-
 rem install msys2 x64
 rem This should probaly be moved to `build_windows.bat` really, since it's kind of complicated... (and quite specific to distro-win really)
 cd /d "%DOWNLOADS%"
@@ -66,15 +57,10 @@ if errorlevel 1 exit /B 1
 if errorlevel 1 exit /B 1
 "c:\program files\7-Zip\7z.exe" x msys2-base-x86_64-20160205.tar >nul
 if errorlevel 1 exit /B 1
-cd msys64
-cmd /c msys2_shell.bat -c "exit"
-rem poor man's sleep:
-ping -n 20 127.0.0.1
-rem really we should someone monitor the process thats running, and wait for it to finish
-cmd /c msys2_shell -c "pacman -Sy pacman --noconfirm"
-ping -n 20 127.0.0.1
-cmd /c msys2_shell -c "pacman -Syu pacman --noconfirm"
-ping -n 20 127.0.0.1
-cmd /c msys2_shell -c "pacman -Sy git tar make mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran --noconfirm"
-ping -n 60 127.0.0.1
-ping -n 60 127.0.0.1
+
+rem initialize msys64:
+rem compared to the instructions on the website, using bash direclty is synchronous, and puts the output into our
+rem console/jenkins
+cmd /c msys64\usr\bin\bash --login exit
+cmd /c msys64\usr\bin\bash --login -c "pacman -Syu --noconfirm"
+cmd /c msys64\usr\bin\bash --login -c "pacman -Sy git tar make mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran --noconfirm"
