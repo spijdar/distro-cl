@@ -25,15 +25,6 @@ set DOWNLOADS=C:\Downloads
 rem download stuff
 cd /d "%DOWNLOADS%"
 
-rem install firefox, because it makes downloading visual studio express easier
-powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('https://download.mozilla.org/?product=firefox-48.0.2-SSL"&"os=win"&"lang=en-US', 'firefox-48.0.2.exe')
-firefox-48.0.2 /s
-ping -n 10 127.0.0.1
-
-"c:\Program Files (x86)\Mozilla Firefox\firefox.exe" "https://www.visualstudio.com/products/visual-studio-express-vs"
-rem this will bring up the downloa dpage.  you still need to click through it, but it saves all those ie security dialogs...
-rem download the vs2015 community edition, and then open it, run it, install it
-
 powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('http://7-zip.org/a/7z920-x64.msi', '7x920-x64.msi')
 msiexec /passive /i 7x920-x64.msi
 rem poor man's sleep :-P
@@ -47,3 +38,12 @@ ping -n 10 127.0.0.1
 powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('https://github.com/git-for-windows/git/releases/download/v2.9.2.windows.1/Git-2.9.2-64-bit.exe', 'Git-2.9.2-64-bit.exe')
 Git-2.9.2-64-bit.exe /silent
 ping -n 30 127.0.0.1
+
+rem install firefox, because it makes downloading visual studio express easier
+powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('https://download.mozilla.org/?product=firefox-48.0.2-SSL"&"os=win"&"lang=en-US', 'firefox-48.0.2.exe')
+firefox-48.0.2 /s
+ping -n 10 127.0.0.1
+
+"c:\Program Files (x86)\Mozilla Firefox\firefox.exe" "https://www.visualstudio.com/products/visual-studio-express-vs"
+rem this will bring up the downloa dpage.  you still need to click through it, but it saves all those ie security dialogs...
+rem download the vs2015 community edition, and then open it, run it, install it
